@@ -1,10 +1,7 @@
 from flask import Flask, render_template, request, flash, redirect, url_for, session, abort, jsonify, send_file
 import os
 import requests
-from flask_mail import Mail, Message
 
-from wtforms import StringField, PasswordField, validators, Form, TextAreaField
-from wtforms.validators import DataRequired, Length, EqualTo
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
