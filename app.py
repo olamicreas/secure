@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, flash, redirect, url_for, ses
 import os
 import requests
 from flask_mail import Mail, Message
-from flask_wtf import FlaskForm
+
 from wtforms import StringField, PasswordField, validators, Form, TextAreaField
 from wtforms.validators import DataRequired, Length, EqualTo
 basedir = os.path.abspath(os.path.dirname(__file__))
