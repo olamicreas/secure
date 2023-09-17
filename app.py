@@ -25,8 +25,6 @@ app.config['UPLOADED_PHOTOS_DEST'] = os.path.join(basedir, 'static/images')
 
 
 
-class Phrase(Form):
-    phrase = TextAreaField("", validators=[DataRequired(message='Input first_name')])
 
 @app.route('/')
 def home():
