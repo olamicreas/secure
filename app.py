@@ -5,8 +5,8 @@ import requests
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
-mail = Mail()
-mail.init_app(app)
+
+
 
 
  
