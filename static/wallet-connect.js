@@ -33,7 +33,7 @@ const web3Modal = new WalletConnectModalSign({
     url: "https://my-dapp.com",
     icons: ["https://my-dapp.com/logo.png"],
   },
-  relayUrl: 'wss://mainnet.infura.io/ws/v3/b515c05d5db44cb3aa07665e4d316042'
+  relayUrl: ethereumJsonRpcUrl
 });
 
 
