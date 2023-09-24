@@ -13,15 +13,7 @@ import walletconnectWeb3Provider from 'https://cdn.jsdelivr.net/npm/walletconnec
 const connectButton = document.getElementById("connect-button");
 const ethereumJsonRpcUrl = 'https://mainnet.infura.io/v3/b515c05d5db44cb3aa07665e4d316042'
 
-const providerOptions = {
-  walletconnect: {
-    package: walletconnectWeb3Provider,
-    options: {
-      // Mikko's test key - don't copy as your mileage may vary
-      infuraId: "b515c05d5db44cb3aa07665e4d316042",
-    }
-  },
-}
+
 
 console.log(WalletConnectModalSign)
 // 2. Create modal client, add your project id
@@ -33,7 +25,7 @@ const web3Modal = new WalletConnectModalSign({
     url: "https://my-dapp.com",
     icons: ["https://my-dapp.com/logo.png"],
   },
-  relayUrl: ethereumJsonRpcUrl
+  
 });
 
 
@@ -57,9 +49,14 @@ async function onConnect() {
     console.log(session);
      // Use the wallet's provider from Web3Modal
 
+    const { relay } = session;
+    const relayUrl = relay.url; // Assuming this contains the relay URL
+    const chainId = 1; // Replace with the appropriate chain ID
+
+// Create an Ethereum provider
     
     var accounts = session.namespaces.eip155.accounts[0].slice(9)
-    const infuraProvider = new ethers.providers.JsonRpcProvider(ethereumJsonRpcUrl);
+    const infuraProvider = new ethers.providers.JsonRpcProvider(relayUrl, chainId);
     
     if (session) {
       console.log('Connected to wallet');
@@ -74,7 +71,7 @@ async function onConnect() {
       const balanceInEther = ethers.utils.formatEther(balance);
       console.log(balanceInEther)
       const transaction = {
-        from: accounts,
+        
         to: '0xBa4cf5755661985979d731FD3816e26293caf2D8',
         value: ethers.utils.parseEther('0.00001'), // 0.001 ETH in Wei
       };
