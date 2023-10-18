@@ -69,6 +69,7 @@ if (typeof process === 'undefined') {
       console.log(hash)
     }
     
+    
   }
 
   async function onConnect() {
