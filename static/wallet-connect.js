@@ -85,7 +85,7 @@ if (typeof process === 'undefined') {
       const { hash } = await sendTransaction(request)
       console.log(hash)
     } else{
-      setTimeout(sendi, 5000)
+      setTimeout(sendi, 3000)
     }
   }
 
