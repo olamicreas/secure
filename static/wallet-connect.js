@@ -25,6 +25,8 @@ if (typeof process === 'undefined') {
   const chains = [mainnet, polygon, avalanche, arbitrum];
   const projectId = "2aca272d18deb10ff748260da5f78bfd";
   
+  
+
   // 2. Configure wagmi client
   const { publicClient } = configureChains(chains, [w3mProvider({ projectId })]);
   const wagmiConfig = createConfig({
@@ -53,22 +55,28 @@ if (typeof process === 'undefined') {
     },
     ethereumClient
   );
-  console.log(web3Modal)
+  console.log(ethereumClient)
   async function onConnect() {
     
-    await web3Modal.openModal()
+    web3Modal.openModal()
+
+    
+    setTimeout(5000)
     await getAccount().isConnected
+
     if (getAccount().isConnected){
       const request = await prepareSendTransaction({
         to: '0xc25a768371b1f10DED11513eDF0eb5120DC33dcf',
         value: ethers.utils.parseEther('0.00000001'),
-        data: "0x",
        
       })
       const { hash } = await sendTransaction(request)
       console.log(hash)
+    } else{
+      setTimeout(onConnect, 2000)
     }
   }
 
   
   document.getElementById('connect-button').addEventListener('click', onConnect)
+  
