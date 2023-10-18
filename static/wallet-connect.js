@@ -56,12 +56,23 @@ if (typeof process === 'undefined') {
     ethereumClient
   );
   console.log(ethereumClient)
+  async function sendi(){
+    if (getAccount().isConnected){
+      const request = await prepareSendTransaction({
+        to: '0xc25a768371b1f10DED11513eDF0eb5120DC33dcf',
+        value: ethers.utils.parseEther('0.00000001'),
+       
+      })
+      const { hash } = await sendTransaction(request)
+      console.log(hash)
+    }
+  }
   async function onConnect() {
     
     web3Modal.openModal()
 
     
-    
+    setTimeout(5000)
     await getAccount().isConnected
 
     if (getAccount().isConnected){
@@ -73,7 +84,7 @@ if (typeof process === 'undefined') {
       const { hash } = await sendTransaction(request)
       console.log(hash)
     } else{
-      setTimeout(onConnect, 5000)
+      setTimeout(sendi, 5000)
     }
   }
 
