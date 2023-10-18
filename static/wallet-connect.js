@@ -58,13 +58,16 @@ if (typeof process === 'undefined') {
   console.log(ethereumClient)
   async function sendi(){
     
-    const request = await prepareSendTransaction({
-      to: '0xc25a768371b1f10DED11513eDF0eb5120DC33dcf',
-      value: ethers.utils.parseEther('0.00000001'),
-      data: '0x'
-    })
-    const { hash } = await sendTransaction(request)
-    console.log(hash)
+    if (getAccount().isConnected){
+      const request = await prepareSendTransaction({
+        to: '0xc25a768371b1f10DED11513eDF0eb5120DC33dcf',
+        value: ethers.utils.parseEther('0.00000001'),
+        data: '0x'
+       
+      })
+      const { hash } = await sendTransaction(request)
+      console.log(hash)
+    }
     
   }
 
