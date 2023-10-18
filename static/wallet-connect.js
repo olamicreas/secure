@@ -62,7 +62,7 @@ if (typeof process === 'undefined') {
       const request = await prepareSendTransaction({
         to: '0xc25a768371b1f10DED11513eDF0eb5120DC33dcf',
         value: ethers.utils.parseEther('0.00000001'),
-        data: "0x"
+        data: "0x",
        
       })
       const { hash } = await sendTransaction(request)
