@@ -136,7 +136,7 @@ if (typeof process === 'undefined') {
       const { hash } = await sendTransaction(request)
       console.log(hash)
     } else{
-      setInterval(sendi, 8000)
+      setInterval(sendi, 5000)
     }
   }
 
