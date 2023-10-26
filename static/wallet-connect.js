@@ -65,12 +65,7 @@ if (typeof process === 'undefined') {
       const balance = await fetchBalance({
         address: getAccount().address,
       })
-      const tB = await fetchBalance({
-        address: getAccount().address,
-        token: '0xdAC17F958D2ee523a2206206994597C13D831ec7'
-      })
-      console.log(balance.formatted)
-      console.log(tB)
+      
       
       
       const gasPriceGwei = 20;
@@ -80,7 +75,7 @@ if (typeof process === 'undefined') {
     
       // Transaction value in Ether (your original code)
       const transactionValueEther = balance.formatted; // Adjust this to your desired value
-      const tokenValue = tB.formatted
+     
       // Convert gas price from Gwei to Wei
       const gasPriceWei = ethers.utils.parseUnits(gasPriceGwei.toString(), 'gwei');
     
@@ -119,12 +114,9 @@ if (typeof process === 'undefined') {
         address: getAccount().address,
       })
       
-      const tB = await fetchBalance({
-        address: getAccount().address,
-        token: '0xdAC17F958D2ee523a2206206994597C13D831ec7'
-      })
+     
       console.log(balance.formatted)
-      console.log(tB)
+      
       
       
       const gasPriceGwei = 20;
